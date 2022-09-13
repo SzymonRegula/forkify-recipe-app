@@ -11,10 +11,6 @@ import addRecipeView from './views/addRecipeView.js';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
-
 const controlRecipes = async function () {
   try {
     const id = window.location.hash.slice(1);
@@ -49,7 +45,6 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3) Render results
-    // resultsView.render(model.state.search.results);
     resultsView.render(model.getSearchResultsPage());
 
     // 4) Render initial pagination buttons
@@ -72,7 +67,6 @@ const controlServings = function (newServingsNum) {
   model.updateServings(newServingsNum);
 
   // Update the recipe view
-  // recipeView.render(model.state.recipe);
   recipeView.update(model.state.recipe);
 };
 
@@ -102,7 +96,6 @@ const controlAddRecipe = async function (newRecipe) {
     console.log(model.state.recipe);
 
     // Change ID in URL
-    // window.location.hash = model.state.recipe.id;
     window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
     // Succes message
@@ -113,19 +106,10 @@ const controlAddRecipe = async function (newRecipe) {
 
     // Render bookmark view
     bookmarksView.render(model.state.bookmarks);
-
-    // Close form window
-    // setTimeout(function () {
-    //   addRecipeView.closeWindow();
-    // }, MODAL_CLOSE_SEC * 1000);
   } catch (err) {
     console.error('💥', err);
     addRecipeView.renderError(err.message);
   }
-};
-
-const newFeature = function () {
-  console.log('Welcome to the application!');
 };
 
 const init = function () {
@@ -136,6 +120,5 @@ const init = function () {
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
   addRecipeView.addHandlerUpload(controlAddRecipe);
-  newFeature();
 };
 init();
